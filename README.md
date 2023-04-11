@@ -2,7 +2,7 @@
 
 Data object for storing valid coordinates on Earth in decimal [WGS-84](https://en.wikipedia.org/wiki/World_Geodetic_System) format.
 
-[![Packagist Version](https://img.shields.io/packagist/v/DJTommek/coordinates?label=Packagist&style=flat-square)](https://packagist.org/packages/djtommek/mapycz-api)
+[![Packagist Version](https://img.shields.io/packagist/v/DJTommek/coordinates?label=Packagist&style=flat-square)](https://packagist.org/packages/djtommek/coordinates)
 [![GitHub Repo stars](https://img.shields.io/github/stars/DJTommek/coordinates?label=Github%20stars&style=flat-square)](https://github.com/DJTommek/coordinates)
 
 ## Installation
