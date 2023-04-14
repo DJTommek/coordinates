@@ -144,6 +144,8 @@ class CoordinatesAbstract implements CoordinatesInterface, \JsonSerializable
 			case 'string':
 				if (preg_match('/^' . self::RE_BASIC_LAT . '$/', $lat)) {
 					$latReal = (float)$lat;
+				} else {
+					return false;
 				}
 				break;
 			default:
@@ -169,6 +171,8 @@ class CoordinatesAbstract implements CoordinatesInterface, \JsonSerializable
 			case 'string':
 				if (preg_match('/^' . self::RE_BASIC_LON . '$/', $lon)) {
 					$lonReal = (float)$lon;
+				} else {
+					return false;
 				}
 				break;
 			default:
