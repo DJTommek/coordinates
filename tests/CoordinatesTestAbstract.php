@@ -108,7 +108,11 @@ class CoordinatesTestAbstract extends TestCase
 			['0,0', 0, 0],
 			['0.000000,0.000000', 0.0, 0.0],
 
-			// multi-character separator separator
+			// multi-character separator
+			['12.3456789, -98.7654321', 12.3456789, -98.7654321, ', '],
+            ['-23.456, 45.678', -23.456, 45.678, ', '],
+            ['-1.234567, 11.111111', -1.234567, 11.111111, ', '],
+
 			['1.234567__0.123456', 1.234567, 0.123456, '__'],
 			['1.234_abcd_0.123', 1.234, 0.123, '_abcd_'],
 		];
@@ -135,12 +139,16 @@ class CoordinatesTestAbstract extends TestCase
 			['1.234567__0.123456', '_'],
 			['1.234567__0.123456', '___'],
 
+			// should be used multi-character separator
+			['12.3456789, -98.7654321'],
+            ['-23.456, 45.678'],
+            ['-1.234567, 11.111111'],
+
 			['some random text'],
 			['valid coords (49.885617,14.044381) but inside text'],
 			['95.885617,14.044381'], // lat out of bounds
 			['1.885617,180.044381'], // lon out of bounds
 		];
-
 	}
 
 	/**
