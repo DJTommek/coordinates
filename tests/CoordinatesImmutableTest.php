@@ -178,4 +178,21 @@ final class CoordinatesImmutableTest extends CoordinatesTestAbstract
 			0.000_000_01,
 		);
 	}
+
+	/**
+	 * @dataProvider invalidLatitudesProvider
+	 */
+	public function testisLatInvalid(mixed $input): void
+	{
+		$this->assertFalse(CoordinatesImmutable::isLat($input), sprintf('Input "%s" should not be valid latitude.', $input));
+	}
+
+	/**
+	 * @dataProvider invalidLongitudesProvider
+	 */
+	public function testisLonInvalid(mixed $input): void
+	{
+		$this->assertFalse(CoordinatesImmutable::isLon($input), sprintf('Input "%s" should not be valid longitude.', $input));
+	}
+
 }

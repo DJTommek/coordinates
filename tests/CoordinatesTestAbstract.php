@@ -228,6 +228,99 @@ class CoordinatesTestAbstract extends TestCase
 	}
 
 	/**
+	 * Invalid types or values, that can't be latitude nor longitude
+	 *
+	 * @return array<mixed>
+	 */
+	private static function invalidCoordinateTypeProvider(): array
+	{
+		return [
+			['abc'],
+			['12abc'],
+			[''],
+			[' '],
+			[' 12'],
+			['12 '],
+			[' 12 '],
+			[null],
+			[[]],
+			[[-1]],
+			[true],
+			[false],
+		];
+	}
+
+	/**
+	 * @return array<mixed>
+	 */
+	public static function invalidLatitudesProvider(): array
+	{
+		$invalidTypes = self::invalidCoordinateTypeProvider();
+		$outOfRange = [
+			// Out of range
+			[149.885617],
+			[-149.885617],
+
+			// Barely out of range (float)
+			[90.0001],
+			[-90.0001],
+			[90.00000000000001],
+			[-90.00000000000001],
+
+			// Barely out of range (string as float)
+			['90.0001'],
+			['-90.0001'],
+			['90.00000000000001'],
+			['-90.00000000000001'],
+
+			// Barely out of range (int)
+			[91],
+			[-91],
+
+			// Barely out of range (string as int)
+			['91'],
+			['-91'],
+		];
+
+		return array_merge($invalidTypes, $outOfRange);
+	}
+
+	/**
+	 * @return array<mixed>
+	 */
+	public static function invalidLongitudesProvider(): array
+	{
+		$invalidTypes = self::invalidCoordinateTypeProvider();
+		$outOfRange = [
+			// Out of range
+			[339.885617],
+			[-200.885617],
+
+			// Barely out of range (float)
+			[180.0001],
+			[-180.0001],
+			[180.0000000000001],
+			[-180.0000000000001],
+
+			// Barely out of range (string as float)
+			['180.0001'],
+			['-180.0001'],
+			['180.0000000000001'],
+			['-180.0000000000001'],
+
+			// Barely out of range (int)
+			[181],
+			[-181],
+
+			// Barely out of range (string as int)
+			['181'],
+			['-181'],
+		];
+
+		return array_merge($invalidTypes, $outOfRange);
+	}
+
+	/**
 	 * [
 	 *   [distance, lat1, lon1, lat2, lon2]
 	 * ]

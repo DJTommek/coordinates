@@ -34,7 +34,7 @@ final class CoordinatesTest extends CoordinatesTestAbstract
 	{
 		$this->assertFalse(
 			Coordinates::isLat($latInput)
-			&& Coordinates::isLon($lonInput)
+			&& Coordinates::isLon($lonInput),
 		);
 
 		$this->expectException(CoordinatesException::class);
@@ -192,5 +192,21 @@ final class CoordinatesTest extends CoordinatesTestAbstract
 			Coordinates::distanceLatLon($lat2, $lon2, $lat1, $lon1),
 			0.000_000_01,
 		);
+	}
+
+	/**
+	 * @dataProvider invalidLatitudesProvider
+	 */
+	public function testisLatInvalid(mixed $input): void
+	{
+		$this->assertFalse(Coordinates::isLat($input), sprintf('Input "%s" should not be valid latitude.', $input));
+	}
+
+	/**
+	 * @dataProvider invalidLongitudesProvider
+	 */
+	public function testisLonInvalid(mixed $input): void
+	{
+		$this->assertFalse(Coordinates::isLon($input), sprintf('Input "%s" should not be valid longitude.', $input));
 	}
 }
