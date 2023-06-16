@@ -8,7 +8,7 @@ use DJTommek\Coordinates\Exceptions\CoordinatesException;
  * @property float $lat
  * @property float $lon
  */
-class CoordinatesAbstract implements CoordinatesInterface, \JsonSerializable
+abstract class CoordinatesAbstract implements CoordinatesInterface, \JsonSerializable
 {
 	/**
 	 * Regex for basic latitude coordinates validation from string
