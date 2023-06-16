@@ -115,37 +115,28 @@ final class CoordinatesTest extends CoordinatesTestAbstract
 		$this->assertEqualsWithDelta($coords->lon, $expectedLon, 0.000_001);
 	}
 
-	public function testDistance(): void
+	public function testDistanceBasic(): void
 	{
-		$prague = new \DJTommek\Coordinates\Coordinates(50.0875, 14.4213);
-		printf('Prague: %s', $prague); // Prague: 49.885617,14.044381
+		$prague = new Coordinates(50.0875, 14.4213);
+		$berlin = new Coordinates(52.51861112345, 13.40833312345);
 
-		$berlin = new \DJTommek\Coordinates\Coordinates(52.518611, 13.408333);
+		$this->abstractTestDistanceBasic($prague, $berlin);
+	}
 
-		$distance = $prague->distance($berlin);
-		$a = sprintf('Distance between Prague and Berlin is %d km', $distance / 1000);
-		$this->assertSame('Distance between Prague and Berlin is 279 km', $a);
-		// Distance between Prague and Berlin is %d km
+	/**
+	 * @dataProvider distanceProvider
+	 */
+	public function testDistance(float $expectedDistance, float $lat1, float $lon1, float $lat2, float $lon2): void
+	{
+		$coords1 = new Coordinates($lat1, $lon1);
+		$coords2 = new Coordinates($lat2, $lon2);
 
-
-		$this->assertSame(0.0, (new Coordinates(50.087725, 14.4211267))->distance(new Coordinates(50.087725, 14.4211267)));
-		$this->assertSame(42.16747601866312, (new Coordinates(50.087725, 14.4211267))->distance(new Coordinates(50.0873667, 14.4213203)));
-		$this->assertSame(1_825.0239867033586, (new Coordinates(36.6323425, -121.9340617))->distance(new Coordinates(36.6219297, -121.9182533)));
-
-		$coord1 = new Coordinates(50, 14);
-		$coord2 = new Coordinates(51, 15);
-
-		$this->assertEqualsWithDelta( // same coordinates, just switched
-			$coord1->distance($coord2),
-			$coord2->distance($coord1),
-			0.000_000_01
-		);
-		$this->assertSame(4_532.050463078125, (new Coordinates(50.08904, 14.42890))->distance(new Coordinates(50.07406, 14.48797)));
-		$this->assertSame(11_471_646.428581407, (new Coordinates(-50.08904, 14.42890))->distance(new Coordinates(50.07406, -14.48797)));
+		$this->abstractTestDistance($expectedDistance, $coords1, $coords2);
 	}
 
 	/**
 	 * Generate random coordinates and compare distance between by using first and second set of method argument.
+	 *
 	 * @dataProvider iterator100Provider
 	 */
 	public function testDistanceGenerated(): void
@@ -169,7 +160,7 @@ final class CoordinatesTest extends CoordinatesTestAbstract
 		$this->assertEqualsWithDelta( // same coordinates, just switched
 			Coordinates::distanceLatLon(50, 14, 51, 15),
 			Coordinates::distanceLatLon(51, 15, 50, 14),
-			0.000_000_01
+			0.000_000_01,
 		);
 		$this->assertSame(4_532.050463078125, Coordinates::distanceLatLon(50.08904, 14.42890, 50.07406, 14.48797));
 		$this->assertSame(11_471_646.428581407, Coordinates::distanceLatLon(-50.08904, 14.42890, 50.07406, -14.48797));
@@ -177,6 +168,7 @@ final class CoordinatesTest extends CoordinatesTestAbstract
 
 	/**
 	 * Generate random coordinates and compare distance between by using first and second set of method argument.
+	 *
 	 * @dataProvider iterator100Provider
 	 */
 	public function testDistanceStaticGenerated(): void

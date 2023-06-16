@@ -110,22 +110,15 @@ final class CoordinatesImmutableTest extends CoordinatesTestAbstract
 		$this->assertEqualsWithDelta($coords->lon, $expectedLon, 0.000_001);
 	}
 
-	public function testDistance(): void
+	/**
+	 * @dataProvider distanceProvider
+	 */
+	public function testDistance(float $expectedDistance, float $lat1, float $lon1, float $lat2, float $lon2): void
 	{
-		$this->assertSame(0.0, (new CoordinatesImmutable(50.087725, 14.4211267))->distance(new CoordinatesImmutable(50.087725, 14.4211267)));
-		$this->assertSame(42.16747601866312, (new CoordinatesImmutable(50.087725, 14.4211267))->distance(new CoordinatesImmutable(50.0873667, 14.4213203)));
-		$this->assertSame(1_825.0239867033586, (new CoordinatesImmutable(36.6323425, -121.9340617))->distance(new CoordinatesImmutable(36.6219297, -121.9182533)));
+		$coords1 = new CoordinatesImmutable($lat1, $lon1);
+		$coords2 = new CoordinatesImmutable($lat2, $lon2);
 
-		$coord1 = new CoordinatesImmutable(50, 14);
-		$coord2 = new CoordinatesImmutable(51, 15);
-
-		$this->assertEqualsWithDelta( // same coordinates, just switched
-			$coord1->distance($coord2),
-			$coord2->distance($coord1),
-			0.000_000_01
-		);
-		$this->assertSame(4_532.050463078125, (new CoordinatesImmutable(50.08904, 14.42890))->distance(new CoordinatesImmutable(50.07406, 14.48797)));
-		$this->assertSame(11_471_646.428581407, (new CoordinatesImmutable(-50.08904, 14.42890))->distance(new CoordinatesImmutable(50.07406, -14.48797)));
+		$this->abstractTestDistance($expectedDistance, $coords1, $coords2);
 	}
 
 	/**

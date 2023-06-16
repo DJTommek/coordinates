@@ -26,9 +26,9 @@ class CoordinatesTestAbstract extends TestCase
 	 */
 	public static function iterator100Provider(): \Generator
 	{
-	    for ($i = 0; $i < 100; $i++) {
+		for ($i = 0; $i < 100; $i++) {
 			yield [];
-	    }
+		}
 	}
 
 	protected function abstractTestCoordinates(Coordinates|CoordinatesImmutable $coords, string $keyExpected): void
@@ -49,7 +49,38 @@ class CoordinatesTestAbstract extends TestCase
 		$realJsonString = json_encode($coords);
 
 		$this->assertSame($expectedJsonString, $realJsonString);
+	}
 
+	protected function abstractTestDistanceBasic(
+		Coordinates|CoordinatesImmutable $prague,
+		Coordinates|CoordinatesImmutable $berlin,
+	): void {
+		$this->assertSame(
+			'Prague: 50.087500,14.421300',
+			'Prague: ' . $prague,
+		);
+
+		$this->assertSame(
+			'Berlin: 52.518611,13.408333',
+			'Berlin: ' . $berlin,
+		);
+		$distance = $prague->distance($berlin);
+		$this->assertSame(
+			'Distance between Prague and Berlin is 279 km',
+			sprintf('Distance between Prague and Berlin is %d km', $distance / 1000),
+		);
+	}
+
+	protected function abstractTestDistance(
+		float $expectedDistance,
+		Coordinates|CoordinatesImmutable $coords1,
+		Coordinates|CoordinatesImmutable $coords2,
+	): void {
+		$distance1 = $coords1->distance($coords2);
+		$this->assertEqualsWithDelta($expectedDistance, $distance1, 0.000_000_01);
+
+		$distance2 = $coords2->distance($coords1);
+		$this->assertEqualsWithDelta($expectedDistance, $distance2, 0.000_000_01);
 	}
 
 	/**
@@ -110,8 +141,8 @@ class CoordinatesTestAbstract extends TestCase
 
 			// multi-character separator
 			['12.3456789, -98.7654321', 12.3456789, -98.7654321, ', '],
-            ['-23.456, 45.678', -23.456, 45.678, ', '],
-            ['-1.234567, 11.111111', -1.234567, 11.111111, ', '],
+			['-23.456, 45.678', -23.456, 45.678, ', '],
+			['-1.234567, 11.111111', -1.234567, 11.111111, ', '],
 
 			['1.234567__0.123456', 1.234567, 0.123456, '__'],
 			['1.234_abcd_0.123', 1.234, 0.123, '_abcd_'],
@@ -141,8 +172,8 @@ class CoordinatesTestAbstract extends TestCase
 
 			// should be used multi-character separator
 			['12.3456789, -98.7654321'],
-            ['-23.456, 45.678'],
-            ['-1.234567, 11.111111'],
+			['-23.456, 45.678'],
+			['-1.234567, 11.111111'],
 
 			['some random text'],
 			['valid coords (49.885617,14.044381) but inside text'],
@@ -193,7 +224,29 @@ class CoordinatesTestAbstract extends TestCase
 			['-91', 0],
 			[0, '181'],
 			[0, '-181'],
+		];
+	}
 
+	/**
+	 * [
+	 *   [distance, lat1, lon1, lat2, lon2]
+	 * ]
+	 *
+	 * @return array<array{float, float, float, float, float}>
+	 */
+	public static function distanceProvider(): array
+	{
+		return [
+			[42.16747601866312, 50.087725, 14.4211267, 50.0873667, 14.4213203],
+			[1_825.0239867033586, 36.6323425, -121.9340617, 36.6219297, -121.9182533],
+			[4_532.050463078125, 50.08904, 14.42890, 50.07406, 14.48797],
+			[11_471_646.428581407, -50.08904, 14.42890, 50.07406, -14.48797],
+
+			[0, 0, 0, 0, 0],
+			[20015086.79602057, 0, 0, 0, 180], // Antipodal points
+			[559120.5770615528, 37.7749, -122.4194, 34.0522, -118.2437],
+			[343556.060341042, 51.5074, -0.1278, 48.8566, 2.3522],
+			[732290.7614908506, -33.8675, 151.207, -27.4698, 153.0251],
 		];
 	}
 }
