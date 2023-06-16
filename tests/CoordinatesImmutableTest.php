@@ -28,14 +28,27 @@ final class CoordinatesImmutableTest extends CoordinatesTestAbstract
 	}
 
 	/**
+	 * @dataProvider invalidCoordinateTypeProvider
+	 */
+	public function testInvalidValues(mixed $invalidValue): void
+	{
+		$this->assertNull(CoordinatesImmutable::safe($invalidValue, $invalidValue));
+
+		$this->expectException(CoordinatesException::class);
+		new CoordinatesImmutable($invalidValue, $invalidValue);
+	}
+
+	/**
 	 * @dataProvider outOfRangeCoordinatesProvider
 	 */
 	public function testCoordsOutOfRange(mixed $latInput, mixed $lonInput): void
 	{
 		$this->assertFalse(
 			CoordinatesImmutable::isLat($latInput)
-			&& CoordinatesImmutable::isLon($lonInput)
+			&& CoordinatesImmutable::isLon($lonInput),
 		);
+
+		$this->assertNull(CoordinatesImmutable::safe($latInput, $lonInput));
 
 		$this->expectException(CoordinatesException::class);
 		new CoordinatesImmutable($latInput, $lonInput);
@@ -131,6 +144,7 @@ final class CoordinatesImmutableTest extends CoordinatesTestAbstract
 
 	/**
 	 * Generate random coordinates and compare distance between by using first and second set of method argument.
+	 *
 	 * @dataProvider iterator100Provider
 	 */
 	public function testDistanceGenerated(): void
@@ -154,7 +168,7 @@ final class CoordinatesImmutableTest extends CoordinatesTestAbstract
 		$this->assertEqualsWithDelta( // same coordinates, just switched
 			CoordinatesImmutable::distanceLatLon(50, 14, 51, 15),
 			CoordinatesImmutable::distanceLatLon(51, 15, 50, 14),
-			0.000_000_01
+			0.000_000_01,
 		);
 		$this->assertSame(4_532.050463078125, CoordinatesImmutable::distanceLatLon(50.08904, 14.42890, 50.07406, 14.48797));
 		$this->assertSame(11_471_646.428581407, CoordinatesImmutable::distanceLatLon(-50.08904, 14.42890, 50.07406, -14.48797));
@@ -162,6 +176,7 @@ final class CoordinatesImmutableTest extends CoordinatesTestAbstract
 
 	/**
 	 * Generate random coordinates and compare distance between by using first and second set of method argument.
+	 *
 	 * @dataProvider iterator100Provider
 	 */
 	public function testDistanceStaticGenerated(): void

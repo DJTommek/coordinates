@@ -232,7 +232,7 @@ class CoordinatesTestAbstract extends TestCase
 	 *
 	 * @return array<mixed>
 	 */
-	private static function invalidCoordinateTypeProvider(): array
+	public static function invalidCoordinateTypeProvider(): array
 	{
 		return [
 			['abc'],

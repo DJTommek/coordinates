@@ -28,6 +28,17 @@ final class CoordinatesTest extends CoordinatesTestAbstract
 	}
 
 	/**
+	 * @dataProvider invalidCoordinateTypeProvider
+	 */
+	public function testInvalidValues(mixed $invalidValue): void
+	{
+		$this->assertNull(Coordinates::safe($invalidValue, $invalidValue));
+
+		$this->expectException(CoordinatesException::class);
+		new Coordinates($invalidValue, $invalidValue);
+	}
+
+	/**
 	 * @dataProvider outOfRangeCoordinatesProvider
 	 */
 	public function testCoordsOutOfRange(mixed $latInput, mixed $lonInput): void
@@ -36,6 +47,8 @@ final class CoordinatesTest extends CoordinatesTestAbstract
 			Coordinates::isLat($latInput)
 			&& Coordinates::isLon($lonInput),
 		);
+
+		$this->assertNull(Coordinates::safe($latInput, $lonInput));
 
 		$this->expectException(CoordinatesException::class);
 		new Coordinates($latInput, $lonInput);
