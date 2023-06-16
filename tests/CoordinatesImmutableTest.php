@@ -15,12 +15,31 @@ final class CoordinatesImmutableTest extends CoordinatesTestAbstract
 	/**
 	 * @dataProvider validCoordinatesProvider
 	 */
-	public function testCoordinates(mixed $latInput, mixed $lonInput, string $keyExpected): void
+	public function testIsValid(mixed $latInput, mixed $lonInput, string $_): void
 	{
 		$this->assertTrue(CoordinatesImmutable::isLat($latInput));
 		$this->assertTrue(CoordinatesImmutable::isLon($lonInput));
+	}
 
+	/**
+	 * @dataProvider validCoordinatesProvider
+	 */
+	public function testCoordinatesImmutable(mixed $latInput, mixed $lonInput, string $keyExpected): void
+	{
 		$coords = new CoordinatesImmutable($latInput, $lonInput);
+		$this->abstractTestCoordinates($coords, $keyExpected);
+
+		$this->assertEqualsWithDelta($latInput, $coords->lat, 0.000_000_1);
+		$this->assertEqualsWithDelta($lonInput, $coords->lon, 0.000_000_1);
+	}
+
+	/**
+	 * @dataProvider validCoordinatesProvider
+	 */
+	public function testCoordinatesImmutableSafe(mixed $latInput, mixed $lonInput, string $keyExpected): void
+	{
+		$coords = CoordinatesImmutable::safe($latInput, $lonInput);
+		$this->assertInstanceOf(CoordinatesImmutable::class, $coords);
 		$this->abstractTestCoordinates($coords, $keyExpected);
 
 		$this->assertEqualsWithDelta($latInput, $coords->lat, 0.000_000_1);

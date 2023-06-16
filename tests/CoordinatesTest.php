@@ -15,12 +15,31 @@ final class CoordinatesTest extends CoordinatesTestAbstract
 	/**
 	 * @dataProvider validCoordinatesProvider
 	 */
-	public function testCoordinates(mixed $latInput, mixed $lonInput, string $keyExpected): void
+	public function testIsValid(mixed $latInput, mixed $lonInput, string $_): void
 	{
 		$this->assertTrue(Coordinates::isLat($latInput));
 		$this->assertTrue(Coordinates::isLon($lonInput));
+	}
 
+	/**
+	 * @dataProvider validCoordinatesProvider
+	 */
+	public function testCoordinates(mixed $latInput, mixed $lonInput, string $keyExpected): void
+	{
 		$coords = new Coordinates($latInput, $lonInput);
+		$this->abstractTestCoordinates($coords, $keyExpected);
+
+		$this->assertEqualsWithDelta($latInput, $coords->lat, 0.000_000_1);
+		$this->assertEqualsWithDelta($lonInput, $coords->lon, 0.000_000_1);
+	}
+
+	/**
+	 * @dataProvider validCoordinatesProvider
+	 */
+	public function testCoordinatesSafe(mixed $latInput, mixed $lonInput, string $keyExpected): void
+	{
+		$coords = Coordinates::safe($latInput, $lonInput);
+		$this->assertInstanceOf(Coordinates::class, $coords);
 		$this->abstractTestCoordinates($coords, $keyExpected);
 
 		$this->assertEqualsWithDelta($latInput, $coords->lat, 0.000_000_1);
