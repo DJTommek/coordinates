@@ -121,7 +121,7 @@ final class CoordinatesTest extends CoordinatesTestAbstract
 	/**
 	 * @dataProvider validCoordinatesFromStringProvider
 	 */
-	public function testValidFromString(string $input, float $latExpected, float $lonExpected, string $separator = null)
+	public function testValidFromString(string $input, float $latExpected, float $lonExpected, string $separator = null): void
 	{
 		if ($separator === null) {
 			$coords = Coordinates::fromString($input);
@@ -135,7 +135,7 @@ final class CoordinatesTest extends CoordinatesTestAbstract
 	/**
 	 * @dataProvider invalidCoordinatesFromStringProvider
 	 */
-	public function testInvalidFromString(string $input, string $separator = null)
+	public function testInvalidFromString(string $input, string $separator = null): void
 	{
 		if ($separator === null) {
 			$result = Coordinates::fromString($input);
@@ -243,9 +243,11 @@ final class CoordinatesTest extends CoordinatesTestAbstract
 	}
 
 	/**
+	 * @param array<array{float, float}> $polygon
+	 *
 	 * @dataProvider polygonsProvider
 	 */
-	public function testIsInPolygon($polygon, $lat, $lon): void
+	public function testIsInPolygon(array $polygon, float $lat, float $lon): void
 	{
 		$coords = new Coordinates($lat, $lon);
 		$this->assertTrue($coords->isInPolygon($polygon));

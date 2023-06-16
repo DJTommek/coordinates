@@ -343,6 +343,9 @@ class CoordinatesTestAbstract extends TestCase
 		];
 	}
 
+	/**
+	 * @return array<string, array{array<array{float, float}>, float, float}>
+	 */
 	public static function polygonsProvider(): array
 	{
 		$pragueCastlePolygon = [

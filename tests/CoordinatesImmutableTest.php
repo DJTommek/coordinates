@@ -116,7 +116,7 @@ final class CoordinatesImmutableTest extends CoordinatesTestAbstract
 	/**
 	 * @dataProvider validCoordinatesFromStringProvider
 	 */
-	public function testValidFromString(string $input, float $latExpected, float $lonExpected, string $separator = null)
+	public function testValidFromString(string $input, float $latExpected, float $lonExpected, string $separator = null): void
 	{
 		if ($separator === null) {
 			$coords = CoordinatesImmutable::fromString($input);
@@ -130,7 +130,7 @@ final class CoordinatesImmutableTest extends CoordinatesTestAbstract
 	/**
 	 * @dataProvider invalidCoordinatesFromStringProvider
 	 */
-	public function testInvalidFromString(string $input, string $separator = null)
+	public function testInvalidFromString(string $input, string $separator = null): void
 	{
 		if ($separator === null) {
 			$result = CoordinatesImmutable::fromString($input);
@@ -230,9 +230,11 @@ final class CoordinatesImmutableTest extends CoordinatesTestAbstract
 	}
 
 	/**
+	 * @param array<array{float, float}> $polygon
+	 *
 	 * @dataProvider polygonsProvider
 	 */
-	public function testIsInPolygon($polygon, $lat, $lon)
+	public function testIsInPolygon(array $polygon, float $lat, float $lon): void
 	{
 		$coords = new CoordinatesImmutable($lat, $lon);
 		$this->assertTrue($coords->isInPolygon($polygon));
