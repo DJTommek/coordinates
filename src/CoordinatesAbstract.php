@@ -80,7 +80,7 @@ class CoordinatesAbstract implements CoordinatesInterface, \JsonSerializable
 	}
 
 	/** Create new instance but return null if lat and/or lon are invalid */
-	public static function safe(mixed $lat, mixed $lon): ?self
+	public static function safe(mixed $lat, mixed $lon): ?static
 	{
 		try {
 			return new static($lat, $lon);
@@ -123,8 +123,8 @@ class CoordinatesAbstract implements CoordinatesInterface, \JsonSerializable
 
 	public static function distanceLatLon(float $lat1, float $lon1, float $lat2, float $lon2): float
 	{
-		$location1 = new self($lat1, $lon1);
-		$location2 = new self($lat2, $lon2);
+		$location1 = new static($lat1, $lon1);
+		$location2 = new static($lat2, $lon2);
 
 		return $location1->distance($location2);
 	}
@@ -174,11 +174,11 @@ class CoordinatesAbstract implements CoordinatesInterface, \JsonSerializable
 	/**
 	 * Safely create Coordinates object from format 'latitude,longitude' or return null
 	 */
-	public static function fromString(string $input, string $separator = ','): ?self
+	public static function fromString(string $input, string $separator = ','): ?static
 	{
 		$coords = explode($separator, $input);
 		if (count($coords) === 2) {
-			return self::safe($coords[0], $coords[1]);
+			return static::safe($coords[0], $coords[1]);
 		}
 		return null;
 	}
@@ -227,9 +227,9 @@ class CoordinatesAbstract implements CoordinatesInterface, \JsonSerializable
 	/**
 	 * @throws CoordinatesException
 	 */
-	protected function setLatInternal(mixed $lat): self
+	protected function setLatInternal(mixed $lat): static
 	{
-		if (self::isLat($lat) === false) {
+		if (static::isLat($lat) === false) {
 			throw new CoordinatesException('Latitude coordinate must be numeric between or equal from -90 to 90 degrees.');
 		}
 		$this->latInternal = floatval($lat);
@@ -240,9 +240,9 @@ class CoordinatesAbstract implements CoordinatesInterface, \JsonSerializable
 	/**
 	 * @throws CoordinatesException
 	 */
-	protected function setLonInternal(mixed $lon): self
+	protected function setLonInternal(mixed $lon): static
 	{
-		if (self::isLon($lon) === false) {
+		if (static::isLon($lon) === false) {
 			throw new CoordinatesException('Longitude coordinate must be numeric between or equal from -180 to 180 degrees.');
 		}
 		$this->lonInternal = floatval($lon);

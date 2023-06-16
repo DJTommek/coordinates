@@ -2,5 +2,5 @@ parameters:
 	ignoreErrors:
 		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
-			count: 1
+			count: 3
 			path: src/CoordinatesAbstract.php
