@@ -222,4 +222,16 @@ final class CoordinatesTest extends CoordinatesTestAbstract
 	{
 		$this->assertFalse(Coordinates::isLon($input), sprintf('Input "%s" should not be valid longitude.', $input));
 	}
+
+	/**
+	 * @dataProvider polygonsProvider
+	 */
+	public function testIsInPolygon($polygon, $lat, $lon): void
+	{
+		$coords = new Coordinates($lat, $lon);
+		$this->assertTrue($coords->isInPolygon($polygon));
+
+		$coordsOut = new Coordinates(12, -55);
+		$this->assertFalse($coordsOut->isInPolygon($polygon));
+	}
 }

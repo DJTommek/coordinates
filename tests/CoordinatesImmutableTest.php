@@ -210,4 +210,15 @@ final class CoordinatesImmutableTest extends CoordinatesTestAbstract
 		$this->assertFalse(CoordinatesImmutable::isLon($input), sprintf('Input "%s" should not be valid longitude.', $input));
 	}
 
+	/**
+	 * @dataProvider polygonsProvider
+	 */
+	public function testIsInPolygon($polygon, $lat, $lon)
+	{
+		$coords = new CoordinatesImmutable($lat, $lon);
+		$this->assertTrue($coords->isInPolygon($polygon));
+
+		$coordsOut = new CoordinatesImmutable(12, -55);
+		$this->assertFalse($coordsOut->isInPolygon($polygon));
+	}
 }
