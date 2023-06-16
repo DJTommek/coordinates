@@ -41,6 +41,7 @@ class CoordinatesAbstract implements CoordinatesInterface, \JsonSerializable
 	/**
 	 * @param float|int $lat Latitude coordinate in WGS-84 format
 	 * @param float|int $lon Longitude coordinate in WGS-84 format
+	 *
 	 * @throws CoordinatesException
 	 */
 	public function __construct(mixed $lat, mixed $lon)
@@ -133,26 +134,7 @@ class CoordinatesAbstract implements CoordinatesInterface, \JsonSerializable
 	 */
 	public static function isLat(mixed $lat): bool
 	{
-		$latReal = $lat;
-		switch (gettype($lat)) {
-			case 'double':
-				// correct value, do nothing
-				break;
-			case 'integer':
-				$latReal = (float)$lat;
-				break;
-			case 'string':
-				if (preg_match('/^' . self::RE_BASIC_LAT . '$/', $lat)) {
-					$latReal = (float)$lat;
-				} else {
-					return false;
-				}
-				break;
-			default:
-				return false;
-		}
-
-		return ($latReal <= 90 && $latReal >= -90);
+		return self::isCoordinate($lat, self::RE_BASIC_LAT, 90);
 	}
 
 	/**
@@ -160,17 +142,22 @@ class CoordinatesAbstract implements CoordinatesInterface, \JsonSerializable
 	 */
 	public static function isLon(mixed $lon): bool
 	{
-		$lonReal = $lon;
-		switch (gettype($lon)) {
+		return self::isCoordinate($lon, self::RE_BASIC_LON, 180);
+	}
+
+	private static function isCoordinate(mixed $value, string $regex, int $edge): bool
+	{
+		$valueReal = $value;
+		switch (gettype($value)) {
 			case 'double':
 				// correct value, do nothing
 				break;
 			case 'integer':
-				$lonReal = (float)$lon;
+				$valueReal = (float)$value;
 				break;
 			case 'string':
-				if (preg_match('/^' . self::RE_BASIC_LON . '$/', $lon)) {
-					$lonReal = (float)$lon;
+				if (preg_match('/^' . $regex . '$/', $value)) {
+					$valueReal = (float)$value;
 				} else {
 					return false;
 				}
@@ -179,7 +166,9 @@ class CoordinatesAbstract implements CoordinatesInterface, \JsonSerializable
 				return false;
 		}
 
-		return ($lonReal <= 180 && $lonReal >= -180);
+		$negativeEdge = $edge * -1;
+
+		return ($valueReal <= $edge && $valueReal >= $negativeEdge);
 	}
 
 	/**
@@ -198,6 +187,7 @@ class CoordinatesAbstract implements CoordinatesInterface, \JsonSerializable
 	 * Check if point is inside of polygon
 	 *
 	 * @param array<array{float, float}> $polygon multi-array of coordinates, example: [[50.5,16.5], [51.5,16.5], [51.5,17.5], [50.5,17.5]]
+	 *
 	 * @author https://stackoverflow.com/a/18190354/3334403
 	 */
 	public function isInPolygon(array $polygon): bool
