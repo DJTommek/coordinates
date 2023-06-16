@@ -17,6 +17,9 @@ final class CoordinatesImmutableTest extends CoordinatesTestAbstract
 	 */
 	public function testCoordinates(mixed $latInput, mixed $lonInput, string $keyExpected): void
 	{
+		$this->assertTrue(CoordinatesImmutable::isLat($latInput));
+		$this->assertTrue(CoordinatesImmutable::isLon($lonInput));
+
 		$coords = new CoordinatesImmutable($latInput, $lonInput);
 		$this->abstractTestCoordinates($coords, $keyExpected);
 
@@ -29,6 +32,11 @@ final class CoordinatesImmutableTest extends CoordinatesTestAbstract
 	 */
 	public function testCoordsOutOfRange(mixed $latInput, mixed $lonInput): void
 	{
+		$this->assertFalse(
+			CoordinatesImmutable::isLat($latInput)
+			&& CoordinatesImmutable::isLon($lonInput)
+		);
+
 		$this->expectException(CoordinatesException::class);
 		new CoordinatesImmutable($latInput, $lonInput);
 	}

@@ -17,6 +17,9 @@ final class CoordinatesTest extends CoordinatesTestAbstract
 	 */
 	public function testCoordinates(mixed $latInput, mixed $lonInput, string $keyExpected): void
 	{
+		$this->assertTrue(Coordinates::isLat($latInput));
+		$this->assertTrue(Coordinates::isLon($lonInput));
+
 		$coords = new Coordinates($latInput, $lonInput);
 		$this->abstractTestCoordinates($coords, $keyExpected);
 
@@ -29,6 +32,11 @@ final class CoordinatesTest extends CoordinatesTestAbstract
 	 */
 	public function testCoordsOutOfRange(mixed $latInput, mixed $lonInput): void
 	{
+		$this->assertFalse(
+			Coordinates::isLat($latInput)
+			&& Coordinates::isLon($lonInput)
+		);
+
 		$this->expectException(CoordinatesException::class);
 		new Coordinates($latInput, $lonInput);
 	}
