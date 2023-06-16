@@ -83,7 +83,7 @@ class CoordinatesAbstract implements CoordinatesInterface, \JsonSerializable
 	public static function safe(mixed $lat, mixed $lon): ?self
 	{
 		try {
-			return new self($lat, $lon);
+			return new static($lat, $lon);
 		} catch (CoordinatesException) {
 			return null;
 		}
