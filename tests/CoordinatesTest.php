@@ -87,7 +87,7 @@ final class CoordinatesTest extends CoordinatesTestAbstract
 		$coords1 = new Coordinates($lat1, $lon1);
 		$this->assertSame($lat1, $coords1->lat);
 		$this->assertSame($lon1, $coords1->lon);
-		$key1 = $coords1->key();
+		$key1 = $coords1->getLatLon();
 
 		// Test latitude
 		// Updating object and returning self, no new object is being created
@@ -96,12 +96,12 @@ final class CoordinatesTest extends CoordinatesTestAbstract
 
 		$this->assertSame($coords1->lat, $lat2);
 		$this->assertSame($coords1->lon, $lon1);
-		$this->assertNotSame($key1, $coords1->key());
+		$this->assertNotSame($key1, $coords1->getLatLon());
 
 		// Set coordinate back to original value using magic setter
 		$coords1->lat = $lat1;
 		$this->assertSame($coords1->lat, $lat1);
-		$this->assertSame($key1, $coords1->key());
+		$this->assertSame($key1, $coords1->getLatLon());
 
 		// Test longitude
 		// Updating object and returning self, no new object is being created
@@ -110,12 +110,12 @@ final class CoordinatesTest extends CoordinatesTestAbstract
 
 		$this->assertSame($coords1->lat, $lat1);
 		$this->assertSame($coords1->lon, $lon3);
-		$this->assertNotSame($key1, $coords1->key());
+		$this->assertNotSame($key1, $coords1->getLatLon());
 
 		// Set coordinate back to original value using magic setter
 		$coords1->lon = $lon1;
 		$this->assertSame($coords1->lon, $lon1);
-		$this->assertSame($key1, $coords1->key());
+		$this->assertSame($key1, $coords1->getLatLon());
 	}
 
 	/**

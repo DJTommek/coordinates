@@ -15,7 +15,7 @@ interface CoordinatesInterface
 	public function getLon(): float;
 
 	/**
-	 * Returns latitude and longitude in format 'lat,lon'
+	 * Returns latitude and longitude in format 'lat,lon' with comma as default delimiter.
 	 */
-	public function key(): string;
+	public function getLatLon(string $delimiter = ','): string;
 }

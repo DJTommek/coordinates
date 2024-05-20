@@ -33,7 +33,7 @@ class CoordinatesTestAbstract extends TestCase
 
 	protected function abstractTestCoordinates(Coordinates|CoordinatesImmutable $coords, string $keyExpected): void
 	{
-		$this->assertSame($coords->key(), $keyExpected);
+		$this->assertSame($coords->getLatLon(), $keyExpected);
 		$this->assertSame((string)$coords, $keyExpected);
 
 		$this->assertSame($coords->lat, $coords->getLat());

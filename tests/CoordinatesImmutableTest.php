@@ -84,7 +84,7 @@ final class CoordinatesImmutableTest extends CoordinatesTestAbstract
 		$coords1 = new CoordinatesImmutable($lat1, $lon1);
 		$this->assertSame($lat1, $coords1->lat);
 		$this->assertSame($lon1, $coords1->lon);
-		$key1 = $coords1->key();
+		$key1 = $coords1->getLatLon();
 
 		// Create new object from provided but change latitude int new object (original object must not change)
 		$coords2 = $coords1->withLat($lat2);
@@ -93,11 +93,11 @@ final class CoordinatesImmutableTest extends CoordinatesTestAbstract
 
 		$this->assertSame($lat1, $coords1->lat);
 		$this->assertSame($lon1, $coords1->lon);
-		$this->assertSame($key1, $coords1->key());
+		$this->assertSame($key1, $coords1->getLatLon());
 		// New object shares longitude, otherwise is different:
 		$this->assertSame($coords1->lon, $coords2->lon);
 		$this->assertNotSame($coords1->lat, $coords2->lat);
-		$this->assertNotSame($coords1->key(), $coords2->key());
+		$this->assertNotSame($coords1->getLatLon(), $coords2->getLatLon());
 
 		// Create new object from provided but change longitude in new object (original object must not change)
 		$coords3 = $coords1->withLon($lon3);
@@ -106,11 +106,11 @@ final class CoordinatesImmutableTest extends CoordinatesTestAbstract
 
 		$this->assertSame($lat1, $coords1->lat);
 		$this->assertSame($lon1, $coords1->lon);
-		$this->assertSame($key1, $coords1->key());
+		$this->assertSame($key1, $coords1->getLatLon());
 		// New object shares latitude, otherwise is different:
 		$this->assertSame($coords1->lat, $coords3->lat);
 		$this->assertNotSame($coords1->lon, $coords3->lon);
-		$this->assertNotSame($coords1->key(), $coords3->key());
+		$this->assertNotSame($coords1->getLatLon(), $coords3->getLatLon());
 	}
 
 	/**

@@ -89,14 +89,22 @@ abstract class CoordinatesAbstract implements CoordinatesInterface, \JsonSeriali
 		}
 	}
 
+	/**
+	 * @deprecated Use getLatLon() instead.
+	 */
 	public function key(): string
 	{
 		return sprintf('%F,%F', $this->latInternal, $this->lonInternal);
 	}
 
+	public function getLatLon(string $delimiter = ','): string
+	{
+		return sprintf('%F%s%F', $this->latInternal, $delimiter, $this->lonInternal);
+	}
+
 	public function __toString(): string
 	{
-		return $this->key();
+		return $this->getLatLon();
 	}
 
 	/**
