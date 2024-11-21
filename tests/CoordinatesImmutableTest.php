@@ -242,4 +242,24 @@ final class CoordinatesImmutableTest extends CoordinatesTestAbstract
 		$coordsOut = new CoordinatesImmutable(12, -55);
 		$this->assertFalse($coordsOut->isInPolygon($polygon));
 	}
+
+	public function testFromInterfaceNative(): void
+	{
+		$coords = new CoordinatesImmutable(12.3456, 98.765);
+		$coordsNew = CoordinatesImmutable::fromInterface($coords);
+		$this->assertNotSame($coords, $coordsNew);
+		$this->assertInstanceOf(CoordinatesImmutable::class, $coordsNew);
+		$this->assertSame($coords->getLat(), $coordsNew->getLat());
+		$this->assertSame($coords->getLon(), $coordsNew->getLon());
+	}
+
+	public function testFromInterfaceCustom(): void
+	{
+		$customCoords = new DummyCoordinates(1.2, 3.4, 255);
+		$customCoordsNew = CoordinatesImmutable::fromInterface($customCoords);
+		$this->assertInstanceOf(CoordinatesImmutable::class, $customCoordsNew);
+		$this->assertNotSame($customCoords, $customCoordsNew);
+		$this->assertSame($customCoords->getLat(), $customCoordsNew->getLat());
+		$this->assertSame($customCoords->getLon(), $customCoordsNew->getLon());
+	}
 }

@@ -255,4 +255,24 @@ final class CoordinatesTest extends CoordinatesTestAbstract
 		$coordsOut = new Coordinates(12, -55);
 		$this->assertFalse($coordsOut->isInPolygon($polygon));
 	}
+
+	public function testFromInterfaceNative(): void
+	{
+		$coords = new Coordinates(12.3456, 98.765);
+		$coordsNew = Coordinates::fromInterface($coords);
+		$this->assertNotSame($coords, $coordsNew);
+		$this->assertInstanceOf(Coordinates::class, $coordsNew);
+		$this->assertSame($coords->getLat(), $coordsNew->getLat());
+		$this->assertSame($coords->getLon(), $coordsNew->getLon());
+	}
+
+	public function testFromInterfaceCustom(): void
+	{
+		$customCoords = new DummyCoordinates(1.2, 3.4, 255);
+		$customCoordsNew = Coordinates::fromInterface($customCoords);
+		$this->assertNotSame($customCoords, $customCoordsNew);
+		$this->assertInstanceOf(Coordinates::class, $customCoordsNew);
+		$this->assertSame($customCoords->getLat(), $customCoordsNew->getLat());
+		$this->assertSame($customCoords->getLon(), $customCoordsNew->getLon());
+	}
 }

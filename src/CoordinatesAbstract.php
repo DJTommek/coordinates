@@ -192,6 +192,21 @@ abstract class CoordinatesAbstract implements CoordinatesInterface, \JsonSeriali
 	}
 
 	/**
+	 * Create new object from given interface. Original object is not modified but instead new instance is created
+	 * and returned.
+	 *
+	 * @param CoordinatesInterface $coordinates Input can be any object, as long as it implements CoordinatesInterface
+	 * @return static Returns new object depending on which object this method is used on. See tests for examples.
+	 */
+	public static function fromInterface(CoordinatesInterface $coordinates): static
+	{
+		return new static(
+			$coordinates->getLat(),
+			$coordinates->getLon(),
+		);
+	}
+
+	/**
 	 * Check if point is inside of polygon
 	 *
 	 * @param array<array{float, float}> $polygon multi-array of coordinates, example: [[50.5,16.5], [51.5,16.5], [51.5,17.5], [50.5,17.5]]
