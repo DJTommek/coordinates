@@ -27,7 +27,8 @@
 	},
 	"require-dev": {
 		"phpunit/phpunit": "^10.0",
-		"phpstan/phpstan": "^1.10"
+		"phpstan/phpstan": "^1.10",
+		"rector/rector": "^1.2"
 	},
 	"scripts": {
 		"phpstan": "phpstan analyse src tests",

@@ -121,7 +121,7 @@ final class CoordinatesTest extends CoordinatesTestAbstract
 	/**
 	 * @dataProvider validCoordinatesFromStringProvider
 	 */
-	public function testValidFromString(string $input, float $latExpected, float $lonExpected, string $separator = null): void
+	public function testValidFromString(string $input, float $latExpected, float $lonExpected, ?string $separator = null): void
 	{
 		if ($separator === null) {
 			$coords = Coordinates::fromString($input);
@@ -135,7 +135,7 @@ final class CoordinatesTest extends CoordinatesTestAbstract
 	/**
 	 * @dataProvider invalidCoordinatesFromStringProvider
 	 */
-	public function testInvalidFromString(string $input, string $separator = null): void
+	public function testInvalidFromString(string $input, ?string $separator = null): void
 	{
 		if ($separator === null) {
 			$result = Coordinates::fromString($input);

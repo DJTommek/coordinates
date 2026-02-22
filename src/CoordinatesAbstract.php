@@ -8,7 +8,7 @@ use DJTommek\Coordinates\Exceptions\CoordinatesException;
  * @property float $lat
  * @property float $lon
  */
-abstract class CoordinatesAbstract implements CoordinatesInterface, \JsonSerializable
+abstract class CoordinatesAbstract implements CoordinatesInterface, \JsonSerializable, \Stringable
 {
 	/**
 	 * Regex for basic latitude coordinates validation from string
@@ -122,7 +122,7 @@ abstract class CoordinatesAbstract implements CoordinatesInterface, \JsonSeriali
 		$lonTo = deg2rad($coords->getLon());
 
 		$lonDelta = $lonTo - $lonFrom;
-		$a = pow(cos($latTo) * sin($lonDelta), 2) + pow(cos($latFrom) * sin($latTo) - sin($latFrom) * cos($latTo) * cos($lonDelta), 2);
+		$a = (cos($latTo) * sin($lonDelta)) ** 2 + (cos($latFrom) * sin($latTo) - sin($latFrom) * cos($latTo) * cos($lonDelta)) ** 2;
 		$b = sin($latFrom) * sin($latTo) + cos($latFrom) * cos($latTo) * cos($lonDelta);
 
 		$angle = atan2(sqrt($a), $b);

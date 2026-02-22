@@ -116,7 +116,7 @@ final class CoordinatesImmutableTest extends CoordinatesTestAbstract
 	/**
 	 * @dataProvider validCoordinatesFromStringProvider
 	 */
-	public function testValidFromString(string $input, float $latExpected, float $lonExpected, string $separator = null): void
+	public function testValidFromString(string $input, float $latExpected, float $lonExpected, ?string $separator = null): void
 	{
 		if ($separator === null) {
 			$coords = CoordinatesImmutable::fromString($input);
@@ -130,7 +130,7 @@ final class CoordinatesImmutableTest extends CoordinatesTestAbstract
 	/**
 	 * @dataProvider invalidCoordinatesFromStringProvider
 	 */
-	public function testInvalidFromString(string $input, string $separator = null): void
+	public function testInvalidFromString(string $input, ?string $separator = null): void
 	{
 		if ($separator === null) {
 			$result = CoordinatesImmutable::fromString($input);
